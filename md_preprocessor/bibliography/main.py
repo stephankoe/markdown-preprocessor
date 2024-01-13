@@ -27,6 +27,12 @@ def get_args(parser: ArgumentParser | None = None):
                         default=r'{{bibliography}}',
                         help="Find this string in the parsed Markdown file and"
                              " replace it by the HTML bibliography")
+    parser.add_argument('-i', '--inplace',
+                        dest='inplace',
+                        action='store_true',
+                        default=False,
+                        help="Replace the contents of `md_file` instead of "
+                             "printing to stdout")
     return parser.parse_args()
 
 
@@ -40,10 +46,14 @@ def main_cli():
     output = apply_replace_markdown(contents, replacer)
     output = output.replace(args.bibliography_marker,
                             replacer.render_bibliography())
-    try:
-        sys.stdout.write(output)
-    except BrokenPipeError:
-        pass
+    if args.inplace:
+        with open(args.md_file, 'w', encoding='utf-8') as fh:
+            fh.write(output)
+    else:
+        try:
+            sys.stdout.write(output)
+        except BrokenPipeError:
+            pass
 
 
 if __name__ == '__main__':

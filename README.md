@@ -32,12 +32,13 @@ The citation preprocessor can be called from the command-line with
   - `--bibliography`: path to CSL bibliography (optional) 
   - `--bibliography-marker`: marker of the location within `md_file` where the  
     bibliography should be inserted (optional, defaults to `{{bibliography}}`)
+  - `-i` or `--inplace`: replace the contents of `md_file`, no output to stdout
   - `-h`: show usage information
 
 The parsed markdown file is printed to stdout.
 
 ```
-usage: preprocess-citations [-h] [--bibliography BIBLIOGRAPHY] [--bibliography-marker BIBLIOGRAPHY_MARKER] md_file
+usage: preprocess-citations [-h] [--bibliography BIBLIOGRAPHY] [--bibliography-marker BIBLIOGRAPHY_MARKER] [-i|--inplace] md_file
 ```
 
 For example:
