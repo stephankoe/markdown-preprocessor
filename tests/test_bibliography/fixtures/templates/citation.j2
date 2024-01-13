@@ -1,0 +1,5 @@
+<citations add-brackets="{{ brackets }}" before="{{ before }}" after="{{ after }}">
+{% for citation in citations %}
+    <citation ref-id="{{ citation[0] }}">{{ citation[1] }}</citation>
+{% endfor %}
+</citations>

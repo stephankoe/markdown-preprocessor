@@ -1,0 +1,6 @@
+[MASTER]
+load-plugins=pylint.extensions.docparams, pylint.extensions.mccabe, pylint.extensions.redefined_variable_type
+extension-pkg-whitelist=pylint.extensions.docparams, pylint.extensions.mccabe, pylint.extensions.redefined_variable_type
+
+[FORMAT]
+max-line-length=79

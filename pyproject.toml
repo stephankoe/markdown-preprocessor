@@ -1,0 +1,48 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+version = "0.1"
+name = "markdown-html-preprocessor"
+description = "Collection of pre-processor scripts for Markdown to HTML converters"
+readme = "README.md"
+authors = [
+    {name = "Stephan"},
+]
+maintainers = [
+    {name = "Stephan"},
+]
+license = {file = "LICENSE"}
+requires-python = ">= 3.10"
+dependencies = [
+    "citeproc-py ~= 0.6",
+    "jinja2 ~= 3.1",
+    "marko ~= 2.0",
+    "regex >= 2023.12.25",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)"
+]
+keywords = ["markdown"]
+
+[project.scripts]
+preprocess-citations = "md_preprocessor.bibliography.main:main_cli"
+
+[project.urls]
+Homepage = "https://github.com/stephankoe/markdown-preprocessor"
+Repository = "https://github.com/stephankoe/markdown-preprocessor.git"
+Issues = "https://github.com/stephankoe/markdown-preprocessor/issues"
+
+[tool.hatch.build]
+exclude = [
+    "/.*",
+    "/docs",
+    "/tests",
+    "/venv",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["md_preprocessor"]
