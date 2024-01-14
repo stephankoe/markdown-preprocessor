@@ -1,10 +1,10 @@
 <span class="citation">
-{{ before }}
+{{- before -}}
 {%- for citation in citations -%}
     <a href="#ref-{{ citation[0] }}">{{ citation[1] }}</a>
     {%- if not loop.last -%}
         <span class="citation-sep">; </span>
     {%- endif -%}
 {%- endfor -%}
-{{ after }}
+{{- after -}}
 </span>
