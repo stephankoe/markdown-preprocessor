@@ -2,6 +2,7 @@
 import collections
 import json
 import os
+import re
 from typing import Any, Callable
 
 import jinja2
@@ -10,6 +11,10 @@ JSON = None | bool | int | float | str | list["_Json"] | dict[str, "_Json"]
 TemplateParser = Callable[[str], str]
 _ROOT_PATH = os.path.abspath(os.path.dirname(__file__))
 _DEFAULT_TEMPLATE_DIR = os.path.join(_ROOT_PATH, 'assets', 'templates')
+_METADATA_BLOCK = re.compile("^[^\\S\n\r]*(?P<meta>(?:^|[\n\r])[+-]{3}[\n\r]"
+                             ".*?"
+                             "[\n\r][+-]{3}(?:[\n\r]+|$))"
+                             "(?P<body>.*)$", re.DOTALL)
 
 
 class TreeIterator:
@@ -76,3 +81,17 @@ class Jinja2TemplateLoader:  # pylint: disable=too-few-public-methods
         """
         filename = sanitize_path(f'{name}.j2')
         return self._env.get_template(filename).render
+
+
+def separate_markdown_metadata(markdown: str) -> (str, str):
+    """
+    Separate the leading metadata block from the MarkDown document and return
+    both
+    :param markdown: MarkDown document text
+    :return: tuple containing 1. metadata block, 2. rest of MarkDown document
+    """
+    match = _METADATA_BLOCK.match(markdown)
+    if not match:
+        return "", markdown
+
+    return match.group("meta"), match.group("body")

@@ -4,7 +4,7 @@ from typing import Iterable, Protocol, TypeVar
 import marko
 from marko.md_renderer import MarkdownRenderer
 
-from md_preprocessor.bibliography.utils import TreeIterator
+from md_preprocessor.bibliography.utils import separate_markdown_metadata, TreeIterator
 
 _Match = TypeVar("_Match")
 _NO_REPLACE = frozenset(('Link', 'CodeSpan', 'CodeBlock', 'FencedCode'))
@@ -62,6 +62,7 @@ def apply_replace_markdown(markdown: str,
     :param avoid: do not replace within these Markdown elements
     :return: Markdown document after the replacement
     """
+    metadata, markdown = separate_markdown_metadata(markdown)
     markdown_tree = marko.parse(markdown)
     tree_it = TreeIterator(markdown_tree)
     for node in tree_it:
@@ -73,4 +74,4 @@ def apply_replace_markdown(markdown: str,
         elif any(node.get_type() == cls_name for cls_name in avoid):
             tree_it.prune()  # don't want to replace its contents
     with MarkdownRenderer() as renderer:
-        return renderer.render(markdown_tree)
+        return metadata + renderer.render(markdown_tree)
